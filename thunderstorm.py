@@ -18,7 +18,7 @@
 
 
 from lxml import etree
-import sys, getopt
+import sys, getopt, os, os.path
 
 def vcsGen(dirs):
     component = etree.Element('component')
@@ -56,6 +56,22 @@ def imlGen(incDir, excludes=[]):
 
     return etree.tostring(module, pretty_print=True)
 
+def writeXml(name, xml):
+    f = open(name, 'w')
+    f.write(xml)
+    f.close()
+
+def getUsers():
+    users = []
+    dirlist = os.listdir('/var/www/vhosts/symcore/web/.core/')
+    for dir in dirlist:
+        if os.path.isdir(dir):# and os.path.exists('/home/' + dir):
+            print dir
+
+
+def loopUsers(base):
+    getUsers()
+    
 def help():
     print 'thunderstorm.py -d <domain> -n <project name - optional>'
 
@@ -84,6 +100,7 @@ def main(argv):
 
     print imlGen(domain)
     print vcsGen(['test'])
+    loopUsers('/var/www/vhosts/symcore/web/.core/')
 
 
 if __name__ == "__main__":
